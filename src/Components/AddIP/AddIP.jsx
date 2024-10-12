@@ -8,23 +8,30 @@ const AddIP = () => {
 
     const axiosLink = useAxios(AxiosSource)
 
-    const [start, setstart] = useState(50)
-    const [end, setend] = useState(50)
+    const [start, setstart] = useState(0)
+    const [end, setend] = useState(5000)
+
+
+    console.log(data);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         // console.log(data.slice(0, 2));
-        data.slice(start, data.length).map((e, idx) => {
+        data.slice(start, end).map((e, idx) => {
             // console.log(e);
 
             axiosLink.post('/ips', e)
                 .then(res => {
                     console.log(res);
 
-                    if (idx+1 == (start - data.length)) {
-                       alert("Successfully post")
+                    if (end >= data.length) {
+                        alert("post all data")
                     }
+                    setstart(end)
+                    setend(end + 1000)
+
 
                 })
                 .catch(err => {
